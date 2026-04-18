@@ -9,8 +9,16 @@ from pydantic import BaseModel, Field, computed_field
 class Product(str, Enum):
     """Tradeable products in IMC Prosperity."""
 
+    # Round 0
     EMERALDS = "EMERALDS"
     TOMATOES = "TOMATOES"
+    # Round 1
+    KELP = "KELP"
+    RESIN = "RESIN"
+    SQUID_INK = "SQUID_INK"
+    # Round 2
+    ASH_COATED_OSMIUM = "ASH_COATED_OSMIUM"
+    INTARIAN_PEPPER_ROOT = "INTARIAN_PEPPER_ROOT"
     UNKNOWN = "UNKNOWN"
 
 

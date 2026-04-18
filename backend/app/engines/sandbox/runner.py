@@ -324,6 +324,13 @@ class StrategySandbox:
             """Import hook that blocks forbidden modules."""
             top_level = name.split(".")[0]
 
+            # Redirect 'datamodel' imports to the adapter module, which provides
+            # all the same classes (Order, TradingState, Symbol, etc.) that the
+            # official IMC Prosperity competition runtime exposes.
+            if top_level == "datamodel":
+                from app.engines.sandbox import adapter as _adapter_mod
+                return _adapter_mod
+
             # Allow backend imports (for built-in strategies importing adapter classes)
             # Handle both "backend.app.engines..." and "app.engines..." paths
             if top_level == "backend":
@@ -358,9 +365,11 @@ class StrategySandbox:
             except ImportError:
                 pass
 
-        # Inject the Order class so strategies can create orders without importing
+        # Inject Prosperity-compatible classes so strategies can use them
+        # directly and also so 'from datamodel import X' works via the redirect
         from app.engines.sandbox.adapter import (
-            ConversionObservation, Order, OrderDepth, Trade, Listing, Observation, TradingState,
+            Order, OrderDepth, Trade, Listing, TradingState,
+            Observation, ConversionObservation, Symbol,
         )
         restricted_globals["Order"] = Order
         restricted_globals["OrderDepth"] = OrderDepth
@@ -369,6 +378,7 @@ class StrategySandbox:
         restricted_globals["TradingState"] = TradingState
         restricted_globals["Observation"] = Observation
         restricted_globals["ConversionObservation"] = ConversionObservation
+        restricted_globals["Symbol"] = Symbol
 
         return restricted_globals
 

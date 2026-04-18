@@ -8,49 +8,95 @@ A professional-grade, Bloomberg-style trading terminal and research platform pur
 
 ![Live Strategy Replay](docs/screenshots/05_live_strategy_replay.png)
 
-*Real-time strategy execution with order book, candlestick chart with fill markers, PnL in header, depth chart, strategy parameters, and trade tape.*
+_Real-time strategy execution with order book, candlestick chart with fill markers, PnL in header, depth chart, strategy parameters, and trade tape._
 
 ---
 
 ## Table of Contents
 
-- [Architecture Overview](#architecture-overview)
-- [Quick Start](#quick-start)
-  - [Prerequisites](#prerequisites)
-  - [Backend Setup](#backend-setup)
-  - [Frontend Setup](#frontend-setup)
-  - [Open the Terminal](#open-the-terminal)
-- [Complete User Guide](#complete-user-guide)
-  - [1. Understanding the Interface](#1-understanding-the-interface)
-  - [2. Loading Market Data](#2-loading-market-data)
-  - [3. Starting a Market Replay](#3-starting-a-market-replay)
-  - [4. Using the Order Book Panel](#4-using-the-order-book-panel)
-  - [5. Using the Price Chart](#5-using-the-price-chart)
-  - [6. Adding Technical Indicators](#6-adding-technical-indicators)
-  - [7. Selecting and Running a Strategy](#7-selecting-and-running-a-strategy)
-  - [8. Real-Time Strategy Replay (Live Mode)](#8-real-time-strategy-replay-live-mode)
-  - [9. Reading the PnL Header](#9-reading-the-pnl-header)
-  - [10. Viewing Positions](#10-viewing-positions)
-  - [11. Viewing Fills](#11-viewing-fills)
-  - [12. Running a Backtest](#12-running-a-backtest)
-  - [13. Analysing Backtest Metrics](#13-analysing-backtest-metrics)
-  - [14. Using the Debug Trace](#14-using-the-debug-trace)
-  - [15. Uploading a Custom Strategy](#15-uploading-a-custom-strategy)
-  - [16. Switching Workspaces](#16-switching-workspaces)
-  - [17. Keyboard Shortcuts](#17-keyboard-shortcuts)
-- [Workspace Layouts](#workspace-layouts)
-- [Technical Indicators (200+)](#technical-indicators-200)
-- [Built-in Strategy Library (17 Strategies)](#built-in-strategy-library-17-strategies)
-- [Execution Models](#execution-models)
-- [Data Format Reference](#data-format-reference)
-- [API Reference](#api-reference)
-- [Strategy Interface (Writing Custom Strategies)](#strategy-interface-writing-custom-strategies)
-- [Project Structure](#project-structure)
-- [Tech Stack](#tech-stack)
-- [Troubleshooting](#troubleshooting)
-- [Limitations](#limitations)
-- [How to Extend](#how-to-extend)
-- [License](#license)
+- [IMC Prosperity Trading Terminal](#imc-prosperity-trading-terminal)
+  - [Live Strategy Replay](#live-strategy-replay)
+  - [Table of Contents](#table-of-contents)
+  - [Architecture Overview](#architecture-overview)
+  - [Quick Start](#quick-start)
+    - [Prerequisites](#prerequisites)
+    - [Backend Setup](#backend-setup)
+    - [Frontend Setup](#frontend-setup)
+    - [Open the Terminal](#open-the-terminal)
+    - [Custom Backend URL](#custom-backend-url)
+  - [Complete User Guide](#complete-user-guide)
+    - [1. Understanding the Interface](#1-understanding-the-interface)
+    - [2. Loading Market Data](#2-loading-market-data)
+    - [3. Starting a Market Replay](#3-starting-a-market-replay)
+    - [4. Using the Order Book Panel](#4-using-the-order-book-panel)
+    - [5. Using the Price Chart](#5-using-the-price-chart)
+    - [6. Adding Technical Indicators](#6-adding-technical-indicators)
+    - [7. Selecting and Running a Strategy](#7-selecting-and-running-a-strategy)
+    - [8. Real-Time Strategy Replay (Live Mode)](#8-real-time-strategy-replay-live-mode)
+    - [9. Reading the PnL Header](#9-reading-the-pnl-header)
+    - [10. Viewing Positions](#10-viewing-positions)
+    - [11. Viewing Fills](#11-viewing-fills)
+    - [12. Running a Backtest](#12-running-a-backtest)
+    - [13. Analysing Backtest Metrics](#13-analysing-backtest-metrics)
+    - [14. Using the Debug Trace](#14-using-the-debug-trace)
+    - [15. Uploading a Custom Strategy](#15-uploading-a-custom-strategy)
+    - [16. Switching Workspaces](#16-switching-workspaces)
+    - [17. Keyboard Shortcuts](#17-keyboard-shortcuts)
+  - [Workspace Layouts](#workspace-layouts)
+    - [Trading Workspace (Press `1`)](#trading-workspace-press-1)
+    - [Analysis Workspace (Press `2`)](#analysis-workspace-press-2)
+    - [Strategy Workspace (Press `3`)](#strategy-workspace-press-3)
+    - [Debug Workspace (Press `4`)](#debug-workspace-press-4)
+  - [Technical Indicators (200+)](#technical-indicators-200)
+    - [Trend \& Fair Value (Overlay on Price Chart)](#trend--fair-value-overlay-on-price-chart)
+    - [Oscillators (Separate Sub-Pane)](#oscillators-separate-sub-pane)
+    - [MACD Family (Sub-Pane with Histogram)](#macd-family-sub-pane-with-histogram)
+    - [Volatility \& Bands](#volatility--bands)
+    - [Volume Indicators (Sub-Pane)](#volume-indicators-sub-pane)
+    - [Momentum (Sub-Pane)](#momentum-sub-pane)
+    - [Specialty Indicators](#specialty-indicators)
+  - [Built-in Strategy Library (17 Strategies)](#built-in-strategy-library-17-strategies)
+    - [Market Making (5 Strategies)](#market-making-5-strategies)
+    - [Mean Reversion (4 Strategies)](#mean-reversion-4-strategies)
+    - [Momentum (5 Strategies)](#momentum-5-strategies)
+    - [Microstructure (3 Strategies)](#microstructure-3-strategies)
+  - [Execution Models](#execution-models)
+    - [Conservative](#conservative)
+    - [Balanced (Default)](#balanced-default)
+    - [Optimistic](#optimistic)
+  - [Data Format Reference](#data-format-reference)
+    - [Price Snapshots CSV](#price-snapshots-csv)
+    - [Trade Prints CSV](#trade-prints-csv)
+  - [API Reference](#api-reference)
+    - [Health \& Data](#health--data)
+    - [Replay Control](#replay-control)
+    - [Strategies](#strategies)
+    - [Backtest Results](#backtest-results)
+    - [WebSocket](#websocket)
+  - [Strategy Interface (Writing Custom Strategies)](#strategy-interface-writing-custom-strategies)
+    - [Sample Strategies](#sample-strategies)
+  - [Project Structure](#project-structure)
+  - [Tech Stack](#tech-stack)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
+  - [Troubleshooting](#troubleshooting)
+    - ["Connection failed" error banner](#connection-failed-error-banner)
+    - [Order book shows "No data - start replay"](#order-book-shows-no-data---start-replay)
+    - [Chart is empty / no candles](#chart-is-empty--no-candles)
+    - [Strategy fills not appearing](#strategy-fills-not-appearing)
+    - [PnL shows +0.00 / +0.00 / +0.00](#pnl-shows-000--000--000)
+    - [Indicators not showing on chart](#indicators-not-showing-on-chart)
+    - [WebSocket errors in console](#websocket-errors-in-console)
+    - [Backend startup fails with import errors](#backend-startup-fails-with-import-errors)
+    - [Frontend build fails](#frontend-build-fails)
+  - [Limitations](#limitations)
+  - [How to Extend](#how-to-extend)
+    - [Add a New Product](#add-a-new-product)
+    - [Add a New Round/Day](#add-a-new-roundday)
+    - [Add a Built-in Strategy](#add-a-built-in-strategy)
+    - [Add a New Technical Indicator](#add-a-new-technical-indicator)
+    - [Add a New Data Adapter](#add-a-new-data-adapter)
+  - [License](#license)
 
 ---
 
@@ -94,6 +140,7 @@ A professional-grade, Bloomberg-style trading terminal and research platform pur
 ```
 
 **Data flow:**
+
 1. Backend loads CSV files (price snapshots + trade prints) on startup
 2. Frontend connects and fetches available products/days
 3. User starts a replay &rarr; backend streams tick-by-tick events
@@ -107,11 +154,11 @@ A professional-grade, Bloomberg-style trading terminal and research platform pur
 
 ### Prerequisites
 
-| Requirement | Minimum Version |
-|---|---|
-| Python | 3.11+ |
-| Node.js | 18+ |
-| npm | Comes with Node.js |
+| Requirement | Minimum Version    |
+| ----------- | ------------------ |
+| Python      | 3.11+              |
+| Node.js     | 18+                |
+| npm         | Comes with Node.js |
 
 ### Backend Setup
 
@@ -193,7 +240,7 @@ When you first open the terminal, you see the **Trading Workspace** layout:
 
 ![Trading Workspace](docs/screenshots/01_trading_workspace.png)
 
-*The Trading workspace: order book (left), candlestick chart with volume (center), strategy panel (right), tabbed bottom panel.*
+_The Trading workspace: order book (left), candlestick chart with volume (center), strategy panel (right), tabbed bottom panel._
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -218,30 +265,31 @@ When you first open the terminal, you see the **Trading Workspace** layout:
 
 **Header bar elements (left to right):**
 
-| Element | Purpose |
-|---|---|
-| **IMC PROSPERITY** | Application title |
-| **PROD** dropdown | Select which product/instrument to view (e.g., EMERALDS, TOMATOES) |
-| **DAY** dropdown | Select which trading day to replay (e.g., -2, -1) |
-| **STRAT** dropdown | Select a strategy to run during replay (or "None" for raw replay) |
-| **⏮** (Reset) button | Reset replay to the beginning (keyboard: `R`) |
-| **◀** (Step Back) button | Step backward one tick (keyboard: `Left Arrow`) |
-| **▶** (Play/Pause) button | Start/stop auto-play (keyboard: `Space`) |
-| **▸** (Step Forward) button | Step forward one tick (keyboard: `Right Arrow`) |
-| **Speed** dropdown | Playback speed: 0.25x, 0.5x, 1x, 2x, 5x, 10x |
-| **Timestamp** | Current replay time in HH:MM:SS.mmm format |
-| **Progress** | Current tick / total ticks (e.g., 127/10191) |
-| **LIVE** badge | Green badge when replay is actively playing |
-| **Strategy** badge | Cyan badge showing active strategy name |
-| **LOADED** badge | Blue badge when data is loaded and ready |
-| **PnL Display** | Realized, Unrealized, and Total PnL (color-coded: green = profit, red = loss) |
-| **TRD / ANL / STR / DBG** | Workspace buttons (keyboard: `1`, `2`, `3`, `4`) |
+| Element                     | Purpose                                                                       |
+| --------------------------- | ----------------------------------------------------------------------------- |
+| **IMC PROSPERITY**          | Application title                                                             |
+| **PROD** dropdown           | Select which product/instrument to view (e.g., EMERALDS, TOMATOES)            |
+| **DAY** dropdown            | Select which trading day to replay (e.g., -2, -1)                             |
+| **STRAT** dropdown          | Select a strategy to run during replay (or "None" for raw replay)             |
+| **⏮** (Reset) button       | Reset replay to the beginning (keyboard: `R`)                                 |
+| **◀** (Step Back) button    | Step backward one tick (keyboard: `Left Arrow`)                               |
+| **▶** (Play/Pause) button   | Start/stop auto-play (keyboard: `Space`)                                      |
+| **▸** (Step Forward) button | Step forward one tick (keyboard: `Right Arrow`)                               |
+| **Speed** dropdown          | Playback speed: 0.25x, 0.5x, 1x, 2x, 5x, 10x                                  |
+| **Timestamp**               | Current replay time in HH:MM:SS.mmm format                                    |
+| **Progress**                | Current tick / total ticks (e.g., 127/10191)                                  |
+| **LIVE** badge              | Green badge when replay is actively playing                                   |
+| **Strategy** badge          | Cyan badge showing active strategy name                                       |
+| **LOADED** badge            | Blue badge when data is loaded and ready                                      |
+| **PnL Display**             | Realized, Unrealized, and Total PnL (color-coded: green = profit, red = loss) |
+| **TRD / ANL / STR / DBG**   | Workspace buttons (keyboard: `1`, `2`, `3`, `4`)                              |
 
 ### 2. Loading Market Data
 
 **Automatic loading (default):**
 
 On startup, the backend scans the `sample_data/` directory for CSV files matching:
+
 - `prices_round_{N}_day_{D}.csv` &mdash; Order book snapshots
 - `trades_round_{N}_day_{D}.csv` &mdash; Trade prints
 
@@ -315,7 +363,7 @@ Use the speed dropdown in the header to change playback speed. Available options
 
 ![Order Book and Chart](docs/screenshots/06_orderbook_and_chart.png)
 
-*Order book with 3 levels of bid/ask depth, spread indicator, depth chart visualisation, and live price chart with fill markers.*
+_Order book with 3 levels of bid/ask depth, spread indicator, depth chart visualisation, and live price chart with fill markers._
 
 The **Order Book** panel (top-left in Trading workspace) shows a ladder view of the current bid and ask levels:
 
@@ -336,14 +384,14 @@ SPREAD: 16.0  MID: 10000.0
 
 **Reading the order book:**
 
-| Column | Meaning |
-|---|---|
-| **BID** (left side, green) | Buy orders — prices buyers are willing to pay |
-| **ASK** (right side, red) | Sell orders — prices sellers are willing to accept |
-| **SIZE** | Volume at that price level |
-| **CUM** | Cumulative volume (total volume at and better than that level) |
-| **SPREAD** | Difference between best ask and best bid |
-| **MID** | Midpoint price = (best bid + best ask) / 2 |
+| Column                     | Meaning                                                        |
+| -------------------------- | -------------------------------------------------------------- |
+| **BID** (left side, green) | Buy orders — prices buyers are willing to pay                  |
+| **ASK** (right side, red)  | Sell orders — prices sellers are willing to accept             |
+| **SIZE**                   | Volume at that price level                                     |
+| **CUM**                    | Cumulative volume (total volume at and better than that level) |
+| **SPREAD**                 | Difference between best ask and best bid                       |
+| **MID**                    | Midpoint price = (best bid + best ask) / 2                     |
 
 The order book updates on every tick as new snapshots arrive. Up to 3 levels of depth are shown per side.
 
@@ -353,16 +401,16 @@ The **Chart Panel** (center) displays price action using TradingView Lightweight
 
 **Chart modes** (toggle via buttons above the chart):
 
-| Mode | Description |
-|---|---|
+| Mode       | Description                                                     |
+| ---------- | --------------------------------------------------------------- |
 | **Candle** | Traditional Japanese candlestick chart (green = up, red = down) |
-| **Line** | Continuous line connecting mid prices |
-| **Step** | Step-function line (shows exact price levels between changes) |
-| **OHLC** | Open-High-Low-Close bar chart |
+| **Line**   | Continuous line connecting mid prices                           |
+| **Step**   | Step-function line (shows exact price levels between changes)   |
+| **OHLC**   | Open-High-Low-Close bar chart                                   |
 
 ![Line Chart Mode](docs/screenshots/15_line_chart_mode.png)
 
-*Line chart mode showing continuous mid-price with SMA/EMA overlays and volume bars.*
+_Line chart mode showing continuous mid-price with SMA/EMA overlays and volume bars._
 
 **Chart features:**
 
@@ -383,7 +431,7 @@ The **Chart Panel** (center) displays price action using TradingView Lightweight
 
 ![Indicator Selector](docs/screenshots/10_indicator_selector.png)
 
-*The Indicator Selector panel showing 200+ indicators organized by category, each with configurable parameters and "+ Add" buttons.*
+_The Indicator Selector panel showing 200+ indicators organized by category, each with configurable parameters and "+ Add" buttons._
 
 The terminal includes **200+ technical indicators** computed entirely on the client side for instant response.
 
@@ -402,6 +450,7 @@ The terminal includes **200+ technical indicators** computed entirely on the cli
 **Adding multiple instances of the same indicator:**
 
 You can add the same indicator type with different parameters. For example:
+
 - SMA with period 5 (fast)
 - SMA with period 20 (medium)
 - SMA with period 50 (slow)
@@ -410,23 +459,24 @@ Each instance is tracked separately and displayed with a distinct color.
 
 ![Chart with Indicators](docs/screenshots/11_chart_with_indicators.png)
 
-*Price chart with SMA(20) and EMA(20) indicator overlays. Active indicators shown as tags in the chart header.*
+_Price chart with SMA(20) and EMA(20) indicator overlays. Active indicators shown as tags in the chart header._
 
 **Indicator categories and examples:**
 
-| Category | Indicators | Display |
-|---|---|---|
-| **Trend & Fair Value** | SMA, EMA, WMA, VWMA, HMA, DEMA, TEMA, KAMA, ZLEMA, McGinley, ALMA, VWAP, Ichimoku, and more | Overlaid on price chart |
-| **Oscillators** | RSI, Stochastic, Williams %R, CCI, MFI, Ultimate, Aroon, and more | Separate sub-pane with reference levels |
-| **MACD Family** | MACD (line + signal + histogram), PPO, APO | Separate sub-pane |
-| **Volatility & Bands** | Bollinger Bands (upper/mid/lower), ATR, Keltner Channels, Donchian Channels | Overlaid as bands / sub-pane |
-| **Volume** | OBV, CMF, VWAP, Force Index, EMV, Volume Oscillator | Sub-pane |
-| **Momentum** | ROC, Momentum, TSI, TRIX, KST, Coppock Curve | Sub-pane |
-| **Custom** | Awesome Oscillator, Squeeze Momentum, Schaff Trend Cycle, Connors RSI, Mass Index, and more | Sub-pane |
+| Category               | Indicators                                                                                  | Display                                 |
+| ---------------------- | ------------------------------------------------------------------------------------------- | --------------------------------------- |
+| **Trend & Fair Value** | SMA, EMA, WMA, VWMA, HMA, DEMA, TEMA, KAMA, ZLEMA, McGinley, ALMA, VWAP, Ichimoku, and more | Overlaid on price chart                 |
+| **Oscillators**        | RSI, Stochastic, Williams %R, CCI, MFI, Ultimate, Aroon, and more                           | Separate sub-pane with reference levels |
+| **MACD Family**        | MACD (line + signal + histogram), PPO, APO                                                  | Separate sub-pane                       |
+| **Volatility & Bands** | Bollinger Bands (upper/mid/lower), ATR, Keltner Channels, Donchian Channels                 | Overlaid as bands / sub-pane            |
+| **Volume**             | OBV, CMF, VWAP, Force Index, EMV, Volume Oscillator                                         | Sub-pane                                |
+| **Momentum**           | ROC, Momentum, TSI, TRIX, KST, Coppock Curve                                                | Sub-pane                                |
+| **Custom**             | Awesome Oscillator, Squeeze Momentum, Schaff Trend Cycle, Connors RSI, Mass Index, and more | Sub-pane                                |
 
 **Oscillator reference levels:**
 
 Oscillators like RSI automatically draw horizontal reference lines:
+
 - **RSI**: Lines at 30 (oversold) and 70 (overbought)
 - **Stochastic**: Lines at 20 and 80
 - **CCI**: Lines at -100 and +100
@@ -436,7 +486,7 @@ Oscillators like RSI automatically draw horizontal reference lines:
 
 ![Strategy Panel](docs/screenshots/13_strategy_panel_detail.png)
 
-*Strategy workspace showing the library (left), selected strategy with parameters, execution model selector, and Run Strategy button.*
+_Strategy workspace showing the library (left), selected strategy with parameters, execution model selector, and Run Strategy button._
 
 **Selecting a strategy for live replay:**
 
@@ -451,6 +501,7 @@ Oscillators like RSI automatically draw horizontal reference lines:
 4. Press **Space** or click **Play** to start the replay with the strategy
 
 When a strategy is active during replay:
+
 - A **cyan badge** with the strategy name appears in the header
 - The **LIVE** badge turns green
 - **Fill markers** (▲ BUY / ▼ SELL) appear on the chart at execution points
@@ -472,7 +523,7 @@ When a strategy is active during replay:
 
 ![Live Replay with Strategy](docs/screenshots/05_live_strategy_replay.png)
 
-*Live strategy replay: LIVE badge, Fixed Spread Maker strategy active, fill markers on chart, PnL updating in header, order book live, trade tape flowing.*
+_Live strategy replay: LIVE badge, Fixed Spread Maker strategy active, fill markers on chart, PnL updating in header, order book live, trade tape flowing._
 
 This is the most powerful feature &mdash; watching a strategy execute in real-time against historical data.
 
@@ -507,11 +558,11 @@ REALIZED: +25.50   UNREALIZED: -10.00   TOTAL: +15.50
 
 The PnL display in the header bar shows three values:
 
-| Field | Meaning | Example |
-|---|---|---|
-| **REALIZED** | Profit from closed round-trip trades | +25.50 (green) |
-| **UNREALIZED** | Paper profit/loss on open positions | -10.00 (red) |
-| **TOTAL** | Sum of realized + unrealized | +15.50 (green) |
+| Field          | Meaning                              | Example        |
+| -------------- | ------------------------------------ | -------------- |
+| **REALIZED**   | Profit from closed round-trip trades | +25.50 (green) |
+| **UNREALIZED** | Paper profit/loss on open positions  | -10.00 (red)   |
+| **TOTAL**      | Sum of realized + unrealized         | +15.50 (green) |
 
 These values update in real-time during replay with a strategy active.
 
@@ -519,23 +570,24 @@ These values update in real-time during replay with a strategy active.
 
 ![Positions Panel](docs/screenshots/07_positions_tab.png)
 
-*Positions panel showing active holdings with quantity, average entry price, mark price, unrealized/realized PnL, and position limits.*
+_Positions panel showing active holdings with quantity, average entry price, mark price, unrealized/realized PnL, and position limits._
 
 Click the **POSITIONS** tab in the bottom panel to see current holdings.
 
 The positions table shows:
 
-| Column | Meaning |
-|---|---|
-| **PRODUCT** | Instrument name (e.g., EMERALDS) |
-| **QTY** | Current position quantity (positive = long, negative = short) |
-| **AVG ENTRY** | Average entry price of the position |
-| **MARK** | Current market price (mid price) |
-| **UNREAL.** | Unrealized PnL = (mark - avg_entry) × qty |
-| **REAL.** | Realized PnL from round-trip trades |
-| **POS. LIMIT** | Maximum allowed position size |
+| Column         | Meaning                                                       |
+| -------------- | ------------------------------------------------------------- |
+| **PRODUCT**    | Instrument name (e.g., EMERALDS)                              |
+| **QTY**        | Current position quantity (positive = long, negative = short) |
+| **AVG ENTRY**  | Average entry price of the position                           |
+| **MARK**       | Current market price (mid price)                              |
+| **UNREAL.**    | Unrealized PnL = (mark - avg_entry) × qty                     |
+| **REAL.**      | Realized PnL from round-trip trades                           |
+| **POS. LIMIT** | Maximum allowed position size                                 |
 
 The positions panel also shows a **summary row** at the top:
+
 ```
 POSITIONS: 1   UNREALIZED: +10.00   REALIZED: +0.00   TOTAL PNL: +10.00   CASH: 0.00
 ```
@@ -546,19 +598,19 @@ POSITIONS: 1   UNREALIZED: +10.00   REALIZED: +0.00   TOTAL PNL: +10.00   CASH: 
 
 ![Fills Panel](docs/screenshots/08_fills_tab.png)
 
-*Fills panel showing every strategy execution: timestamp, symbol, side (BUY/SELL), price, quantity, type (PAS/AGG), and PnL impact.*
+_Fills panel showing every strategy execution: timestamp, symbol, side (BUY/SELL), price, quantity, type (PAS/AGG), and PnL impact._
 
 Click the **FILLS** tab to see every trade execution.
 
-| Column | Meaning |
-|---|---|
-| **TIME** | Timestamp of the fill |
-| **SYMBOL** | Product traded |
-| **SIDE** | BUY or SELL |
-| **PRICE** | Execution price |
-| **QTY** | Number of units filled |
-| **TYPE** | PAS (passive/resting) or AGG (aggressive/crossing) |
-| **PNL IMPACT** | PnL contribution of this fill |
+| Column         | Meaning                                            |
+| -------------- | -------------------------------------------------- |
+| **TIME**       | Timestamp of the fill                              |
+| **SYMBOL**     | Product traded                                     |
+| **SIDE**       | BUY or SELL                                        |
+| **PRICE**      | Execution price                                    |
+| **QTY**        | Number of units filled                             |
+| **TYPE**       | PAS (passive/resting) or AGG (aggressive/crossing) |
+| **PNL IMPACT** | PnL contribution of this fill                      |
 
 ### 12. Running a Backtest
 
@@ -608,24 +660,24 @@ curl "http://localhost:8000/api/backtest/{run_id}/trace?offset=0&limit=50"
 
 ![Backtest Metrics](docs/screenshots/14_backtest_metrics.png)
 
-*Backtest results showing performance metrics: Total PnL, Sharpe ratio, max drawdown, win rate, profit factor, and PnL curve.*
+_Backtest results showing performance metrics: Total PnL, Sharpe ratio, max drawdown, win rate, profit factor, and PnL curve._
 
 After running a backtest, click the **METRICS** tab. The metrics panel displays:
 
-| Metric | Description |
-|---|---|
-| **Total PnL** | Final profit or loss |
-| **Realized PnL** | PnL from closed positions |
-| **Unrealized PnL** | PnL from open positions at end |
-| **Sharpe Ratio** | Risk-adjusted return (higher = better, >1 is good) |
-| **Max Drawdown** | Largest peak-to-trough decline |
-| **Win Rate** | Percentage of winning trades |
-| **Profit Factor** | Gross profit / gross loss (>1 means profitable) |
-| **Avg Win** | Average profit on winning trades |
-| **Avg Loss** | Average loss on losing trades |
-| **Num Trades** | Total number of round-trip trades |
-| **Total Volume** | Total units traded |
-| **Total Fees** | Total transaction fees paid |
+| Metric             | Description                                        |
+| ------------------ | -------------------------------------------------- |
+| **Total PnL**      | Final profit or loss                               |
+| **Realized PnL**   | PnL from closed positions                          |
+| **Unrealized PnL** | PnL from open positions at end                     |
+| **Sharpe Ratio**   | Risk-adjusted return (higher = better, >1 is good) |
+| **Max Drawdown**   | Largest peak-to-trough decline                     |
+| **Win Rate**       | Percentage of winning trades                       |
+| **Profit Factor**  | Gross profit / gross loss (>1 means profitable)    |
+| **Avg Win**        | Average profit on winning trades                   |
+| **Avg Loss**       | Average loss on losing trades                      |
+| **Num Trades**     | Total number of round-trip trades                  |
+| **Total Volume**   | Total units traded                                 |
+| **Total Fees**     | Total transaction fees paid                        |
 
 A **PnL sparkline** chart shows the cumulative PnL curve over time.
 
@@ -633,22 +685,23 @@ A **PnL sparkline** chart shows the cumulative PnL curve over time.
 
 ![Debug Workspace](docs/screenshots/09_debug_with_strategy.png)
 
-*Debug workspace: order book + chart (top), per-tick debug trace (bottom-left), positions with mark-to-market PnL (bottom-center), fill history (bottom-right).*
+_Debug workspace: order book + chart (top), per-tick debug trace (bottom-left), positions with mark-to-market PnL (bottom-center), fill history (bottom-right)._
 
 The **DEBUG TRACE** tab shows per-tick strategy decision data. Switch to the **Debug** workspace (press `4`) for the best view.
 
 Each row in the debug trace represents one replay tick:
 
-| Column | Description |
-|---|---|
-| **TIMESTAMP** | Event time |
-| **EVENT** | Event type (ORDER, FILL, SNAPSHOT) |
-| **ORDERS** | Orders submitted by the strategy at this tick |
-| **FILLS** | Fills that occurred at this tick |
-| **PNL** | Running PnL at this tick |
-| **NOTES** | Strategy-specific debug output |
+| Column        | Description                                   |
+| ------------- | --------------------------------------------- |
+| **TIMESTAMP** | Event time                                    |
+| **EVENT**     | Event type (ORDER, FILL, SNAPSHOT)            |
+| **ORDERS**    | Orders submitted by the strategy at this tick |
+| **FILLS**     | Fills that occurred at this tick              |
+| **PNL**       | Running PnL at this tick                      |
+| **NOTES**     | Strategy-specific debug output                |
 
 **Features:**
+
 - **Search** box to filter trace entries
 - **Auto-scroll** toggle to follow new entries
 - **Event type filter** dropdown (ALL, ORDER, FILL, etc.)
@@ -710,6 +763,7 @@ class Trader:
 ```
 
 See `sample_strategies/` for complete examples:
+
 - `simple_market_maker.py` &mdash; Places orders at a fixed spread around the mid price
 - `mean_reversion_example.py` &mdash; Buys below the rolling mean, sells above
 
@@ -717,12 +771,12 @@ See `sample_strategies/` for complete examples:
 
 The terminal has 4 workspace layouts optimised for different tasks:
 
-| Key | Workspace | Best For |
-|---|---|---|
-| `1` | **Trading** | Day-to-day monitoring: order book + chart + strategy panel + tabbed bottom |
-| `2` | **Analysis** | Chart analysis: large chart with metrics sidebar |
-| `3` | **Strategy** | Strategy development: wide strategy panel + chart + tabs |
-| `4` | **Debug** | Debugging: order book + chart (top) / debug trace + positions + fills (bottom) |
+| Key | Workspace    | Best For                                                                       |
+| --- | ------------ | ------------------------------------------------------------------------------ |
+| `1` | **Trading**  | Day-to-day monitoring: order book + chart + strategy panel + tabbed bottom     |
+| `2` | **Analysis** | Chart analysis: large chart with metrics sidebar                               |
+| `3` | **Strategy** | Strategy development: wide strategy panel + chart + tabs                       |
+| `4` | **Debug**    | Debugging: order book + chart (top) / debug trace + positions + fills (bottom) |
 
 Click the workspace buttons (**TRD**, **ANL**, **STR**, **DBG**) in the header or press keys `1`-`4`.
 
@@ -730,18 +784,18 @@ All panels in every workspace are **resizable** &mdash; drag the dividers betwee
 
 ### 17. Keyboard Shortcuts
 
-| Key | Action |
-|---|---|
-| `Space` | Play / Pause replay |
-| `Right Arrow` | Step forward one tick |
-| `Shift + Right Arrow` | Seek forward ~10 ticks |
-| `Left Arrow` | Step backward one tick |
-| `Shift + Left Arrow` | Seek backward ~10 ticks |
-| `R` | Reset replay to beginning |
-| `1` | Switch to Trading workspace |
-| `2` | Switch to Analysis workspace |
-| `3` | Switch to Strategy workspace |
-| `4` | Switch to Debug workspace |
+| Key                   | Action                       |
+| --------------------- | ---------------------------- |
+| `Space`               | Play / Pause replay          |
+| `Right Arrow`         | Step forward one tick        |
+| `Shift + Right Arrow` | Seek forward ~10 ticks       |
+| `Left Arrow`          | Step backward one tick       |
+| `Shift + Left Arrow`  | Seek backward ~10 ticks      |
+| `R`                   | Reset replay to beginning    |
+| `1`                   | Switch to Trading workspace  |
+| `2`                   | Switch to Analysis workspace |
+| `3`                   | Switch to Strategy workspace |
+| `4`                   | Switch to Debug workspace    |
 
 **Note:** Keyboard shortcuts are disabled when the cursor is inside an input field, textarea, or dropdown to prevent conflicts while typing.
 
@@ -830,104 +884,104 @@ All indicators are computed client-side in the browser for instant updates. Each
 
 ### Trend & Fair Value (Overlay on Price Chart)
 
-| Indicator | Parameters | Description |
-|---|---|---|
-| **SMA** | period (default: 20) | Simple Moving Average |
-| **EMA** | period (default: 20) | Exponential Moving Average |
-| **WMA** | period (default: 20) | Weighted Moving Average |
-| **VWMA** | period (default: 20) | Volume Weighted Moving Average |
-| **HMA** | period (default: 20) | Hull Moving Average (smoother, less lag) |
-| **DEMA** | period (default: 20) | Double Exponential Moving Average |
-| **TEMA** | period (default: 20) | Triple Exponential Moving Average |
-| **KAMA** | period (default: 20) | Kaufman Adaptive Moving Average |
-| **ZLEMA** | period (default: 20) | Zero-Lag Exponential Moving Average |
-| **McGinley** | period (default: 14) | McGinley Dynamic (auto-adjusting MA) |
-| **ALMA** | period (default: 20) | Arnaud Legoux Moving Average |
-| **VWAP** | &mdash; | Volume Weighted Average Price (no parameters) |
-| **P-VWAP** | period (default: 14) | Periodic VWAP |
-| **T3/V** | period (default: 20) | Tillson T3 Moving Average |
-| **Ichimoku** | tenkan (9), kijun (26) | Ichimoku Cloud conversion line |
-| **KiJun** | period (default: 26) | Kijun-Sen base line |
-| **Cloud** | &mdash; | Ichimoku Cloud (Senkou Span A & B) |
+| Indicator    | Parameters             | Description                                   |
+| ------------ | ---------------------- | --------------------------------------------- |
+| **SMA**      | period (default: 20)   | Simple Moving Average                         |
+| **EMA**      | period (default: 20)   | Exponential Moving Average                    |
+| **WMA**      | period (default: 20)   | Weighted Moving Average                       |
+| **VWMA**     | period (default: 20)   | Volume Weighted Moving Average                |
+| **HMA**      | period (default: 20)   | Hull Moving Average (smoother, less lag)      |
+| **DEMA**     | period (default: 20)   | Double Exponential Moving Average             |
+| **TEMA**     | period (default: 20)   | Triple Exponential Moving Average             |
+| **KAMA**     | period (default: 20)   | Kaufman Adaptive Moving Average               |
+| **ZLEMA**    | period (default: 20)   | Zero-Lag Exponential Moving Average           |
+| **McGinley** | period (default: 14)   | McGinley Dynamic (auto-adjusting MA)          |
+| **ALMA**     | period (default: 20)   | Arnaud Legoux Moving Average                  |
+| **VWAP**     | &mdash;                | Volume Weighted Average Price (no parameters) |
+| **P-VWAP**   | period (default: 14)   | Periodic VWAP                                 |
+| **T3/V**     | period (default: 20)   | Tillson T3 Moving Average                     |
+| **Ichimoku** | tenkan (9), kijun (26) | Ichimoku Cloud conversion line                |
+| **KiJun**    | period (default: 26)   | Kijun-Sen base line                           |
+| **Cloud**    | &mdash;                | Ichimoku Cloud (Senkou Span A & B)            |
 
 ![Oscillator Indicators](docs/screenshots/12_indicator_oscillators.png)
 
-*Scrolled indicator list showing oscillator and volume categories with configurable parameters.*
+_Scrolled indicator list showing oscillator and volume categories with configurable parameters._
 
 ### Oscillators (Separate Sub-Pane)
 
-| Indicator | Parameters | Reference Levels |
-|---|---|---|
-| **RSI** | period (default: 14) | 30 (oversold), 70 (overbought) |
-| **Stochastic** | k (14), d (3) | 20, 80 |
-| **StochRSI** | period (default: 14) | 20, 80 |
-| **Williams %R** | period (default: 14) | -80, -20 |
-| **CCI** | period (default: 20) | -100, +100 |
-| **MFI** | period (default: 14) | 20, 80 |
-| **Ultimate** | s (7), m (14), l (28) | 30, 70 |
-| **Aroon** | period (default: 25) | 30, 70 |
-| **DPO** | period (default: 20) | 0 |
-| **CMO** | period (default: 14) | -50, +50 |
+| Indicator       | Parameters            | Reference Levels               |
+| --------------- | --------------------- | ------------------------------ |
+| **RSI**         | period (default: 14)  | 30 (oversold), 70 (overbought) |
+| **Stochastic**  | k (14), d (3)         | 20, 80                         |
+| **StochRSI**    | period (default: 14)  | 20, 80                         |
+| **Williams %R** | period (default: 14)  | -80, -20                       |
+| **CCI**         | period (default: 20)  | -100, +100                     |
+| **MFI**         | period (default: 14)  | 20, 80                         |
+| **Ultimate**    | s (7), m (14), l (28) | 30, 70                         |
+| **Aroon**       | period (default: 25)  | 30, 70                         |
+| **DPO**         | period (default: 20)  | 0                              |
+| **CMO**         | period (default: 14)  | -50, +50                       |
 
 ### MACD Family (Sub-Pane with Histogram)
 
-| Indicator | Parameters | Display |
-|---|---|---|
-| **MACD** | fast (12), slow (26), signal (9) | Line + signal + histogram |
-| **PPO** | fast (12), slow (26), signal (9) | Percentage Price Oscillator |
-| **APO** | fast (12), slow (26) | Absolute Price Oscillator |
+| Indicator | Parameters                       | Display                     |
+| --------- | -------------------------------- | --------------------------- |
+| **MACD**  | fast (12), slow (26), signal (9) | Line + signal + histogram   |
+| **PPO**   | fast (12), slow (26), signal (9) | Percentage Price Oscillator |
+| **APO**   | fast (12), slow (26)             | Absolute Price Oscillator   |
 
 ### Volatility & Bands
 
-| Indicator | Parameters | Display |
-|---|---|---|
+| Indicator     | Parameters              | Display                           |
+| ------------- | ----------------------- | --------------------------------- |
 | **Bollinger** | period (20), mult (2.0) | Upper/middle/lower bands on chart |
-| **ATR** | period (default: 14) | Sub-pane |
-| **Keltner** | period (20), mult (2.0) | Channel bands on chart |
-| **Donchian** | period (default: 20) | High/low channel on chart |
-| **BBWidth** | period (20), mult (2.0) | Bollinger Band width (sub-pane) |
+| **ATR**       | period (default: 14)    | Sub-pane                          |
+| **Keltner**   | period (20), mult (2.0) | Channel bands on chart            |
+| **Donchian**  | period (default: 20)    | High/low channel on chart         |
+| **BBWidth**   | period (20), mult (2.0) | Bollinger Band width (sub-pane)   |
 
 ### Volume Indicators (Sub-Pane)
 
-| Indicator | Parameters | Description |
-|---|---|---|
-| **OBV** | &mdash; | On Balance Volume |
-| **CMF** | period (default: 20) | Chaikin Money Flow |
-| **Force** | period (default: 13) | Force Index |
-| **EMV** | period (default: 14) | Ease of Movement |
-| **VO** | fast (12), slow (26) | Volume Oscillator |
+| Indicator | Parameters           | Description        |
+| --------- | -------------------- | ------------------ |
+| **OBV**   | &mdash;              | On Balance Volume  |
+| **CMF**   | period (default: 20) | Chaikin Money Flow |
+| **Force** | period (default: 13) | Force Index        |
+| **EMV**   | period (default: 14) | Ease of Movement   |
+| **VO**    | fast (12), slow (26) | Volume Oscillator  |
 
 ### Momentum (Sub-Pane)
 
-| Indicator | Parameters | Description |
-|---|---|---|
-| **ROC** | period (default: 12) | Rate of Change |
-| **Momentum** | period (default: 10) | Price Momentum |
-| **TSI** | long (25), short (13) | True Strength Index |
-| **TRIX** | period (default: 15) | Triple EMA oscillator |
-| **KST** | r1-r4 + sigPeriod | Know Sure Thing |
-| **Coppock** | longRoc, shortRoc, wma | Coppock Curve |
+| Indicator    | Parameters             | Description           |
+| ------------ | ---------------------- | --------------------- |
+| **ROC**      | period (default: 12)   | Rate of Change        |
+| **Momentum** | period (default: 10)   | Price Momentum        |
+| **TSI**      | long (25), short (13)  | True Strength Index   |
+| **TRIX**     | period (default: 15)   | Triple EMA oscillator |
+| **KST**      | r1-r4 + sigPeriod      | Know Sure Thing       |
+| **Coppock**  | longRoc, shortRoc, wma | Coppock Curve         |
 
 ### Specialty Indicators
 
-| Indicator | Parameters | Description |
-|---|---|---|
-| **AO** | fast (5), slow (34) | Awesome Oscillator |
-| **AC** | fast (5), slow (34) | Accelerator Oscillator |
-| **Squeeze** | bbPeriod, kcPeriod, mult | Squeeze Momentum |
-| **CRSI** | rsiPeriod, streakPeriod, rankPeriod | Connors RSI |
-| **Schaff** | fast (23), slow (50), cycle (10) | Schaff Trend Cycle |
-| **Mass Index** | emaPeriod (9), sumPeriod (25) | Mass Index |
-| **ADX** | period (default: 14) | Average Directional Index |
-| **Vortex** | period (default: 14) | Vortex Indicator (VI+ / VI-) |
-| **SuperTrend** | period (10), mult (3.0) | SuperTrend trend-following |
-| **ParabolicSAR** | step (0.02), max (0.2) | Parabolic Stop & Reverse |
-| **ZigZag** | pct (default: 5) | ZigZag swing detection |
-| **Hurst** | period (default: 100) | Hurst Exponent |
-| **Fisher** | period (default: 10) | Fisher Transform |
-| **Ehlers** | period (default: 20) | Ehlers Filter |
+| Indicator        | Parameters                          | Description                  |
+| ---------------- | ----------------------------------- | ---------------------------- |
+| **AO**           | fast (5), slow (34)                 | Awesome Oscillator           |
+| **AC**           | fast (5), slow (34)                 | Accelerator Oscillator       |
+| **Squeeze**      | bbPeriod, kcPeriod, mult            | Squeeze Momentum             |
+| **CRSI**         | rsiPeriod, streakPeriod, rankPeriod | Connors RSI                  |
+| **Schaff**       | fast (23), slow (50), cycle (10)    | Schaff Trend Cycle           |
+| **Mass Index**   | emaPeriod (9), sumPeriod (25)       | Mass Index                   |
+| **ADX**          | period (default: 14)                | Average Directional Index    |
+| **Vortex**       | period (default: 14)                | Vortex Indicator (VI+ / VI-) |
+| **SuperTrend**   | period (10), mult (3.0)             | SuperTrend trend-following   |
+| **ParabolicSAR** | step (0.02), max (0.2)              | Parabolic Stop & Reverse     |
+| **ZigZag**       | pct (default: 5)                    | ZigZag swing detection       |
+| **Hurst**        | period (default: 100)               | Hurst Exponent               |
+| **Fisher**       | period (default: 10)                | Fisher Transform             |
+| **Ehlers**       | period (default: 20)                | Ehlers Filter                |
 
-*...and many more. Use the search bar in the Indicator Selector to find any specific indicator.*
+_...and many more. Use the search bar in the Indicator Selector to find any specific indicator._
 
 ---
 
@@ -935,40 +989,40 @@ All indicators are computed client-side in the browser for instant updates. Each
 
 ### Market Making (5 Strategies)
 
-| Strategy | Description | Key Parameters |
-|---|---|---|
-| **Fixed Spread Maker** | Places buy and sell orders at a fixed spread around the mid price. Simple, predictable baseline. | spread: 4, order_size: 10, max_position: 20 |
-| **Inventory Skewed Maker** | Adjusts quotes based on current inventory. Skews price away from accumulated position to reduce risk. | base_spread: 4, order_size: 10, max_position: 20, skew_factor: 0.5 |
-| **Adaptive Spread Maker** | Widens spread during high volatility, tightens during calm markets. Uses rolling mid-price std dev. | min_spread: 2, max_spread: 8, order_size: 10, max_position: 20, volatility_window: 20 |
-| **Reservation Price Maker** | Avellaneda-Stoikov inspired. Computes optimal reservation price accounting for inventory risk. | Uses mathematical framework to set spread |
-| **Ladder Maker** | Places multiple orders at different price levels around fair value, creating a ladder of liquidity. | Multiple levels on both sides |
+| Strategy                    | Description                                                                                           | Key Parameters                                                                        |
+| --------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| **Fixed Spread Maker**      | Places buy and sell orders at a fixed spread around the mid price. Simple, predictable baseline.      | spread: 4, order_size: 10, max_position: 20                                           |
+| **Inventory Skewed Maker**  | Adjusts quotes based on current inventory. Skews price away from accumulated position to reduce risk. | base_spread: 4, order_size: 10, max_position: 20, skew_factor: 0.5                    |
+| **Adaptive Spread Maker**   | Widens spread during high volatility, tightens during calm markets. Uses rolling mid-price std dev.   | min_spread: 2, max_spread: 8, order_size: 10, max_position: 20, volatility_window: 20 |
+| **Reservation Price Maker** | Avellaneda-Stoikov inspired. Computes optimal reservation price accounting for inventory risk.        | Uses mathematical framework to set spread                                             |
+| **Ladder Maker**            | Places multiple orders at different price levels around fair value, creating a ladder of liquidity.   | Multiple levels on both sides                                                         |
 
 ### Mean Reversion (4 Strategies)
 
-| Strategy | Description | Key Parameters |
-|---|---|---|
+| Strategy                     | Description                                                                                           | Key Parameters                                                        |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | **Mid Price Mean Reversion** | Trades when mid price deviates from its rolling mean by a configurable number of standard deviations. | window: 20, entry_threshold: 2.0, exit_threshold: 0.5, order_size: 10 |
-| **Bollinger Band Reversion** | Buys at the lower Bollinger Band and sells at the upper band. Unwinds near the mean. | window: 20, num_std: 2.0, order_size: 10, max_position: 20 |
-| **Z-Score Reversion** | Trades based on the z-score of the current price relative to its rolling mean. | window: 30, entry_z: 2.0, exit_z: 0.5, order_size: 10 |
-| **VWAP Reversion** | Reverts to the Volume-Weighted Average Price. Buys below VWAP, sells above. | Uses trade data for VWAP computation |
+| **Bollinger Band Reversion** | Buys at the lower Bollinger Band and sells at the upper band. Unwinds near the mean.                  | window: 20, num_std: 2.0, order_size: 10, max_position: 20            |
+| **Z-Score Reversion**        | Trades based on the z-score of the current price relative to its rolling mean.                        | window: 30, entry_z: 2.0, exit_z: 0.5, order_size: 10                 |
+| **VWAP Reversion**           | Reverts to the Volume-Weighted Average Price. Buys below VWAP, sells above.                           | Uses trade data for VWAP computation                                  |
 
 ### Momentum (5 Strategies)
 
-| Strategy | Description | Key Parameters |
-|---|---|---|
-| **EMA Crossover** | Buys when fast EMA crosses above slow EMA, sells on reverse crossover. | fast_period: 5, slow_period: 20, order_size: 10, max_position: 20 |
-| **SMA Crossover** | Buys when fast SMA crosses above slow SMA, sells on reverse crossover. | fast_period: 5, slow_period: 20, order_size: 10, max_position: 20 |
-| **Breakout Strategy** | Buys on new highs over a lookback window, sells on new lows. | lookback: 20, order_size: 10, max_position: 20 |
-| **Momentum Strategy** | Trades based on rolling return momentum over a lookback window. | Direction follows price momentum |
-| **Trade Flow Momentum** | Follows net trade flow direction. Buys on net buying pressure, sells on selling pressure. | Analyses aggressor side of trades |
+| Strategy                | Description                                                                               | Key Parameters                                                    |
+| ----------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **EMA Crossover**       | Buys when fast EMA crosses above slow EMA, sells on reverse crossover.                    | fast_period: 5, slow_period: 20, order_size: 10, max_position: 20 |
+| **SMA Crossover**       | Buys when fast SMA crosses above slow SMA, sells on reverse crossover.                    | fast_period: 5, slow_period: 20, order_size: 10, max_position: 20 |
+| **Breakout Strategy**   | Buys on new highs over a lookback window, sells on new lows.                              | lookback: 20, order_size: 10, max_position: 20                    |
+| **Momentum Strategy**   | Trades based on rolling return momentum over a lookback window.                           | Direction follows price momentum                                  |
+| **Trade Flow Momentum** | Follows net trade flow direction. Buys on net buying pressure, sells on selling pressure. | Analyses aggressor side of trades                                 |
 
 ### Microstructure (3 Strategies)
 
-| Strategy | Description | Key Parameters |
-|---|---|---|
-| **Imbalance Follower** | Trades in the direction of order book imbalance. Buys when bids dominate asks. | imbalance_threshold: 0.3, order_size: 10, max_position: 20 |
-| **Spread Capture** | Places passive orders to capture the bid-ask spread. Only trades when spread is wide enough. | min_spread: 2, order_size: 5, max_position: 15 |
-| **Tradeburst Reaction** | Detects bursts of trades and follows the direction of net volume in the burst. | Tracks trade frequency and direction |
+| Strategy                | Description                                                                                  | Key Parameters                                             |
+| ----------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| **Imbalance Follower**  | Trades in the direction of order book imbalance. Buys when bids dominate asks.               | imbalance_threshold: 0.3, order_size: 10, max_position: 20 |
+| **Spread Capture**      | Places passive orders to capture the bid-ask spread. Only trades when spread is wide enough. | min_spread: 2, order_size: 5, max_position: 15             |
+| **Tradeburst Reaction** | Detects bursts of trades and follows the direction of net volume in the burst.               | Tracks trade frequency and direction                       |
 
 ---
 
@@ -1009,21 +1063,21 @@ Because Prosperity data consists of periodic **order book snapshots** (not a con
 
 **Delimiter:** Semicolon (`;`) preferred; comma (`,`) fallback supported.
 
-| Column | Type | Required | Description |
-|---|---|---|---|
-| `day` | int | Yes | Trading day identifier |
-| `timestamp` | int | Yes | Tick timestamp |
-| `product` | str | Yes | Product symbol (e.g., AMETHYSTS) |
-| `bid_price_1` | float | Yes | Best bid price |
-| `bid_volume_1` | int | Yes | Volume at best bid |
-| `ask_price_1` | float | Yes | Best ask price |
-| `ask_volume_1` | int | Yes | Volume at best ask |
-| `mid_price` | float | Yes | Mid price |
-| `bid_price_2`, `bid_volume_2` | float, int | No | Second-level bid |
-| `bid_price_3`, `bid_volume_3` | float, int | No | Third-level bid |
-| `ask_price_2`, `ask_volume_2` | float, int | No | Second-level ask |
-| `ask_price_3`, `ask_volume_3` | float, int | No | Third-level ask |
-| `profit_and_loss` | float | No | Cumulative PnL at snapshot |
+| Column                        | Type       | Required | Description                      |
+| ----------------------------- | ---------- | -------- | -------------------------------- |
+| `day`                         | int        | Yes      | Trading day identifier           |
+| `timestamp`                   | int        | Yes      | Tick timestamp                   |
+| `product`                     | str        | Yes      | Product symbol (e.g., AMETHYSTS) |
+| `bid_price_1`                 | float      | Yes      | Best bid price                   |
+| `bid_volume_1`                | int        | Yes      | Volume at best bid               |
+| `ask_price_1`                 | float      | Yes      | Best ask price                   |
+| `ask_volume_1`                | int        | Yes      | Volume at best ask               |
+| `mid_price`                   | float      | Yes      | Mid price                        |
+| `bid_price_2`, `bid_volume_2` | float, int | No       | Second-level bid                 |
+| `bid_price_3`, `bid_volume_3` | float, int | No       | Third-level bid                  |
+| `ask_price_2`, `ask_volume_2` | float, int | No       | Second-level ask                 |
+| `ask_price_3`, `ask_volume_3` | float, int | No       | Third-level ask                  |
+| `profit_and_loss`             | float      | No       | Cumulative PnL at snapshot       |
 
 ### Trade Prints CSV
 
@@ -1031,15 +1085,15 @@ Because Prosperity data consists of periodic **order book snapshots** (not a con
 
 **Delimiter:** Semicolon (`;`) preferred; comma (`,`) fallback supported.
 
-| Column | Type | Required | Description |
-|---|---|---|---|
-| `timestamp` | int | Yes | Trade timestamp |
-| `buyer` | str | Yes | Buyer identifier |
-| `seller` | str | Yes | Seller identifier |
-| `symbol` | str | Yes | Product symbol |
-| `currency` | str | Yes | Currency (e.g., SEASHELLS) |
-| `price` | float | Yes | Trade price |
-| `quantity` | int | Yes | Trade quantity |
+| Column      | Type  | Required | Description                |
+| ----------- | ----- | -------- | -------------------------- |
+| `timestamp` | int   | Yes      | Trade timestamp            |
+| `buyer`     | str   | Yes      | Buyer identifier           |
+| `seller`    | str   | Yes      | Seller identifier          |
+| `symbol`    | str   | Yes      | Product symbol             |
+| `currency`  | str   | Yes      | Currency (e.g., SEASHELLS) |
+| `price`     | float | Yes      | Trade price                |
+| `quantity`  | int   | Yes      | Trade quantity             |
 
 ---
 
@@ -1047,63 +1101,64 @@ Because Prosperity data consists of periodic **order book snapshots** (not a con
 
 ### Health & Data
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/health` | Health check |
-| GET | `/api/datasets` | List loaded dataset metadata |
-| POST | `/api/datasets/load` | Load/reload datasets from data directory |
-| GET | `/api/products` | List all product names |
-| GET | `/api/days` | List all available days |
-| GET | `/api/snapshots?product=X&day=Y` | Get order book snapshots |
-| GET | `/api/trades?product=X&day=Y` | Get trade prints |
-| GET | `/api/ohlcv?product=X&interval=N&day=Y` | Get OHLCV bars |
-| GET | `/api/indicators?product=X&indicator=sma&period=20&day=Y` | Compute indicator |
+| Method | Endpoint                                                  | Description                              |
+| ------ | --------------------------------------------------------- | ---------------------------------------- |
+| GET    | `/api/health`                                             | Health check                             |
+| GET    | `/api/datasets`                                           | List loaded dataset metadata             |
+| POST   | `/api/datasets/load`                                      | Load/reload datasets from data directory |
+| GET    | `/api/products`                                           | List all product names                   |
+| GET    | `/api/days`                                               | List all available days                  |
+| GET    | `/api/snapshots?product=X&day=Y`                          | Get order book snapshots                 |
+| GET    | `/api/trades?product=X&day=Y`                             | Get trade prints                         |
+| GET    | `/api/ohlcv?product=X&interval=N&day=Y`                   | Get OHLCV bars                           |
+| GET    | `/api/indicators?product=X&indicator=sma&period=20&day=Y` | Compute indicator                        |
 
 ### Replay Control
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/replay/start` | Start replay (body: `{products, days, strategy_id?}`) |
-| POST | `/api/replay/step` | Step forward one event |
-| POST | `/api/replay/step-back` | Step backward one event |
-| POST | `/api/replay/pause` | Pause replay |
-| POST | `/api/replay/seek` | Seek to timestamp (body: `{timestamp}`) |
-| POST | `/api/replay/speed` | Set playback speed (body: `{speed}`) |
-| GET | `/api/replay/state` | Get current replay state |
-| POST | `/api/replay/reset` | Reset to initial state |
-| POST | `/api/replay/jump-next-trade` | Jump to next trade event |
-| POST | `/api/replay/jump-next-fill` | Jump to next fill event |
+| Method | Endpoint                      | Description                                           |
+| ------ | ----------------------------- | ----------------------------------------------------- |
+| POST   | `/api/replay/start`           | Start replay (body: `{products, days, strategy_id?}`) |
+| POST   | `/api/replay/step`            | Step forward one event                                |
+| POST   | `/api/replay/step-back`       | Step backward one event                               |
+| POST   | `/api/replay/pause`           | Pause replay                                          |
+| POST   | `/api/replay/seek`            | Seek to timestamp (body: `{timestamp}`)               |
+| POST   | `/api/replay/speed`           | Set playback speed (body: `{speed}`)                  |
+| GET    | `/api/replay/state`           | Get current replay state                              |
+| POST   | `/api/replay/reset`           | Reset to initial state                                |
+| POST   | `/api/replay/jump-next-trade` | Jump to next trade event                              |
+| POST   | `/api/replay/jump-next-fill`  | Jump to next fill event                               |
 
 ### Strategies
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/strategies` | List all strategies |
-| GET | `/api/strategies/{id}` | Get strategy details |
-| GET | `/api/strategies/{id}/source` | Get strategy source code |
-| POST | `/api/strategies/upload` | Upload custom strategy (body: `{name, source_code}`) |
-| POST | `/api/strategies/{id}/run` | Run strategy backtest |
+| Method | Endpoint                      | Description                                          |
+| ------ | ----------------------------- | ---------------------------------------------------- |
+| GET    | `/api/strategies`             | List all strategies                                  |
+| GET    | `/api/strategies/{id}`        | Get strategy details                                 |
+| GET    | `/api/strategies/{id}/source` | Get strategy source code                             |
+| POST   | `/api/strategies/upload`      | Upload custom strategy (body: `{name, source_code}`) |
+| POST   | `/api/strategies/{id}/run`    | Run strategy backtest                                |
 
 ### Backtest Results
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/backtest/{run_id}` | Get run summary |
-| GET | `/api/backtest/{run_id}/metrics` | Get performance metrics |
-| GET | `/api/backtest/{run_id}/trace?offset=0&limit=50` | Get paginated debug trace |
-| GET | `/api/backtest/{run_id}/fills` | Get all fills |
-| GET | `/api/backtest/{run_id}/pnl` | Get PnL history |
-| GET | `/api/backtest/{run_id}/export?format=json` | Export full run data |
-| GET | `/api/runs` | List all backtest runs |
-| POST | `/api/runs/compare` | Compare runs (body: `{run_ids}`) |
+| Method | Endpoint                                         | Description                      |
+| ------ | ------------------------------------------------ | -------------------------------- |
+| GET    | `/api/backtest/{run_id}`                         | Get run summary                  |
+| GET    | `/api/backtest/{run_id}/metrics`                 | Get performance metrics          |
+| GET    | `/api/backtest/{run_id}/trace?offset=0&limit=50` | Get paginated debug trace        |
+| GET    | `/api/backtest/{run_id}/fills`                   | Get all fills                    |
+| GET    | `/api/backtest/{run_id}/pnl`                     | Get PnL history                  |
+| GET    | `/api/backtest/{run_id}/export?format=json`      | Export full run data             |
+| GET    | `/api/runs`                                      | List all backtest runs           |
+| POST   | `/api/runs/compare`                              | Compare runs (body: `{run_ids}`) |
 
 ### WebSocket
 
-| Endpoint | Description |
-|---|---|
+| Endpoint                            | Description           |
+| ----------------------------------- | --------------------- |
 | `ws://localhost:8000/api/ws/replay` | Live replay streaming |
 
 WebSocket commands (send as JSON):
+
 ```json
 {"action": "play"}
 {"action": "pause"}
@@ -1320,31 +1375,31 @@ Visualiser-IMC/
 
 ### Backend
 
-| Component | Technology | Version |
-|---|---|---|
-| Web Framework | FastAPI | 0.109 |
-| ASGI Server | Uvicorn | 0.27 |
-| Data Validation | Pydantic | 2.5 |
-| Configuration | pydantic-settings | 2.1 |
-| Data Processing | pandas | 2.1 |
-| Numerical Computing | NumPy | 1.26 |
-| WebSocket | websockets | 12.0 |
-| File Uploads | python-multipart | 0.0.6 |
-| Async File I/O | aiofiles | 23.2 |
-| Testing | pytest + pytest-asyncio | 7.4 / 0.23 |
-| HTTP Testing | httpx | 0.26 |
+| Component           | Technology              | Version    |
+| ------------------- | ----------------------- | ---------- |
+| Web Framework       | FastAPI                 | 0.109      |
+| ASGI Server         | Uvicorn                 | 0.27       |
+| Data Validation     | Pydantic                | 2.5        |
+| Configuration       | pydantic-settings       | 2.1        |
+| Data Processing     | pandas                  | 2.1        |
+| Numerical Computing | NumPy                   | 1.26       |
+| WebSocket           | websockets              | 12.0       |
+| File Uploads        | python-multipart        | 0.0.6      |
+| Async File I/O      | aiofiles                | 23.2       |
+| Testing             | pytest + pytest-asyncio | 7.4 / 0.23 |
+| HTTP Testing        | httpx                   | 0.26       |
 
 ### Frontend
 
-| Component | Technology | Version |
-|---|---|---|
-| UI Library | React | 18.2 |
-| Language | TypeScript | 5.2 |
-| Build Tool | Vite | 5.0 |
-| State Management | Zustand | 4.4 |
-| Charting | Lightweight Charts (TradingView) | 4.1 |
-| Layout | react-resizable-panels | 1.0 |
-| Styling | CSS Custom Properties (no Tailwind) | &mdash; |
+| Component        | Technology                          | Version |
+| ---------------- | ----------------------------------- | ------- |
+| UI Library       | React                               | 18.2    |
+| Language         | TypeScript                          | 5.2     |
+| Build Tool       | Vite                                | 5.0     |
+| State Management | Zustand                             | 4.4     |
+| Charting         | Lightweight Charts (TradingView)    | 4.1     |
+| Layout           | react-resizable-panels              | 1.0     |
+| Styling          | CSS Custom Properties (no Tailwind) | &mdash; |
 
 ---
 
@@ -1355,6 +1410,7 @@ Visualiser-IMC/
 **Cause:** Frontend cannot reach the backend API.
 
 **Fix:**
+
 1. Ensure the backend is running: `curl http://localhost:8000/api/health`
 2. If using a custom port, set `VITE_API_BASE_URL` accordingly
 3. Check for CORS issues in the browser console (the backend allows all origins by default)
@@ -1376,6 +1432,7 @@ Visualiser-IMC/
 **Cause:** No strategy selected, or the strategy hasn't produced any orders yet.
 
 **Fix:**
+
 1. Select a strategy from the STRAT dropdown in the header
 2. Reset (press R) and play again
 3. Some strategies only trade after accumulating enough data (e.g., mean reversion needs a full lookback window)
@@ -1385,6 +1442,7 @@ Visualiser-IMC/
 **Cause:** Strategy hasn't executed any trades yet, or PnL data isn't flowing.
 
 **Fix:**
+
 1. Let the replay run longer &mdash; some strategies need many ticks before their first trade
 2. Check the Debug Trace (press 4) to see if the strategy is generating orders
 
@@ -1393,6 +1451,7 @@ Visualiser-IMC/
 **Cause:** No indicators have been added.
 
 **Fix:**
+
 1. Click the "Indicators" button in the chart header
 2. Click "+ Add" next to the desired indicator
 3. Ensure there are enough data points (indicators need their lookback period filled first)
@@ -1408,6 +1467,7 @@ Visualiser-IMC/
 **Cause:** Missing Python dependencies.
 
 **Fix:**
+
 ```bash
 cd backend
 pip install -r requirements.txt
@@ -1418,6 +1478,7 @@ pip install -r requirements.txt
 **Cause:** Missing Node.js dependencies.
 
 **Fix:**
+
 ```bash
 cd frontend
 rm -rf node_modules
@@ -1428,14 +1489,14 @@ npm install
 
 ## Limitations
 
-| Limitation | Impact |
-|---|---|
-| **Snapshot-based data** | Source data provides periodic order book snapshots, not a full Level 3 feed. Events between snapshots are unobserved. |
-| **Reconstructed OHLCV** | Candlestick bars are built from mid-price snapshots, not actual trade prices. This introduces approximation. |
+| Limitation                 | Impact                                                                                                                          |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| **Snapshot-based data**    | Source data provides periodic order book snapshots, not a full Level 3 feed. Events between snapshots are unobserved.           |
+| **Reconstructed OHLCV**    | Candlestick bars are built from mid-price snapshots, not actual trade prices. This introduces approximation.                    |
 | **Modeled queue position** | The execution engine cannot determine actual queue priority for passive orders. Fill assumptions depend on the execution model. |
-| **3-level depth** | Only up to 3 levels of depth per side are available from the CSV data. Deeper liquidity is unknown. |
-| **Strategy timeout** | User-uploaded strategies have a 1-second execution timeout per tick call. |
-| **Single-product replay** | The replay focuses on one product at a time (selected via PROD dropdown). |
+| **3-level depth**          | Only up to 3 levels of depth per side are available from the CSV data. Deeper liquidity is unknown.                             |
+| **Strategy timeout**       | User-uploaded strategies have a 1-second execution timeout per tick call.                                                       |
+| **Single-product replay**  | The replay focuses on one product at a time (selected via PROD dropdown).                                                       |
 
 ---
 
@@ -1448,6 +1509,7 @@ Products are auto-discovered from CSV column values. Just include the new produc
 ### Add a New Round/Day
 
 Follow the naming convention and place files in the data directory:
+
 ```
 prices_round_1_day_0.csv
 trades_round_1_day_0.csv
